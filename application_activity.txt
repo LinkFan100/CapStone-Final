@@ -22,3 +22,68 @@ Delete Part attempt on: 2024-11-12 11:03 AM
 Status: Success
 
 
+User: TestUser
+Delete Part attempt on: 2024-11-13 08:28 AM
+Status: Success
+
+
+User: TestUser
+Delete Product attempt on: 2024-11-13 08:28 AM
+Status: Success
+
+
+User: user
+Add Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Add Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Modify Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Modify Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Delete Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Delete Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Add Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Add Part attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Add Product attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Modify Product attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
+User: user
+Delete Product attempt on: 2024-11-13 08:38 AM
+Status: Success
+
+
