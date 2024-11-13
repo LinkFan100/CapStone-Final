@@ -100,31 +100,43 @@ public class partsAddFormController implements Initializable {
                 nameAlert.showAndWait();
 
             } else {
-                //In-House radio button is selected
-                if (iHRadioButton.isSelected()) {
-                    try {
-                        int machineID = Integer.parseInt(addPartMachineId.getText());
-                        inventoryDatabase.addPart(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "IH");
-                        int partid = inventoryDatabase.getPartID(partName);
-                        inventoryDatabase.inHousePartAdd(String.valueOf(partid), String.valueOf(machineID));
-                    } catch (NumberFormatException e) {
-                        Alert MachineIdAlert = new Alert(Alert.AlertType.WARNING);
-                        MachineIdAlert.setTitle("Critical Machine ID Error");
-                        MachineIdAlert.setContentText("The Machine Id format is Incorrect please input a number.");
-                        MachineIdAlert.showAndWait();
+
+                boolean b = inventoryDatabase.nameCheck("Parts","part",partName);
+                if(b) {
+                    if (!addPartMachineId.getText().isEmpty()) {
+                        //In-House radio button is selected
+                        if (iHRadioButton.isSelected()) {
+                            try {
+                                int machineID = Integer.parseInt(addPartMachineId.getText());
+
+                                inventoryDatabase.addPart(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "IH");
+                                int partid = inventoryDatabase.getPartID(partName);
+                                inventoryDatabase.inHousePartAdd(String.valueOf(partid), String.valueOf(machineID));
+                            } catch (NumberFormatException e) {
+                                Alert MachineIdAlert = new Alert(Alert.AlertType.WARNING);
+                                MachineIdAlert.setTitle("Critical Machine ID Error");
+                                MachineIdAlert.setContentText("The Machine Id format is Incorrect please input a number.");
+                                MachineIdAlert.showAndWait();
+                            }
+                        } else if (OutRadioButton.isSelected()) {
+                            String companyName = addPartMachineId.getText();
+                            inventoryDatabase.addPart(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "OS");
+                            int partid = inventoryDatabase.getPartID(partName);
+                            inventoryDatabase.outsourcePartAdd(String.valueOf(partid), companyName);
+                        }
+                        boolean a = true;
+                        signUpController.SaveFile("\nAdd Part attempt on: ", a);
+                        stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                        scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
+                        stage.setScene(new Scene(scene));
+                        stage.show();
+                    } else {
+                        Alert nameAlert = new Alert(Alert.AlertType.WARNING);
+                        nameAlert.setTitle("Field " + machineIDLabel.getText() + " Error");
+                        nameAlert.setContentText(machineIDLabel.getText() + " field is empty please input a " + machineIDLabel.getText());
+                        nameAlert.showAndWait();
                     }
-                } else if (OutRadioButton.isSelected()) {
-                    String companyName = addPartMachineId.getText();
-                    inventoryDatabase.addPart(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "OS");
-                    int partid = inventoryDatabase.getPartID(partName);
-                    inventoryDatabase.outsourcePartAdd(String.valueOf(partid), companyName);
                 }
-                boolean a = true;
-                signUpController.SaveFile("\nAdd Part attempt on: ", a);
-                stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.show();
             }
 
         } catch (NumberFormatException e) {

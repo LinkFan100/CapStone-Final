@@ -12,7 +12,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Set;
 
+/**
+ * The InventoryDatabase class handles the database operations related to the inventory system.
+ * It includes methods for creating and managing product, part, and user data.
+ */
 public class InventoryDatabase {
 
 
@@ -34,6 +39,7 @@ public class InventoryDatabase {
     private static final String Part_Max = "max";
     private static final String OutsourcedInhouse = "outsourcedinhouse";
     private static final String Part_Product_Id = "partProductId";
+
 
     //  Product Table
     private static final String Product_Table = "Products";
@@ -68,25 +74,9 @@ public class InventoryDatabase {
     private static final String Associated_Part_Stock = "stock";
     private static final String Associated_Part_Min = "min";
     private static final String Associated_Part_Max = "max";
-    //    private static final String Associated_OutsourcedInhouse = "outsourcedinhouse";
     private static final String Associated_Part_Product_Id = "partProductId";
-//    private static final String Associated_Parts_Table = "associatedParts";
-//    private static final String Associated_Id = "Id";
-//    private static final String Associated_Part_Product_Id = "partProductId";
-//    private static final String Associated_Part_Id = "partId";
 
-
-    // creating a constructor for our database handler.
-//    public InventoryDatabase(Context context) {
-//        super(context, DB_NAME, null, DB_VERSION);
-//    }
     public void dbCreate() {
-        // Load the SQLite JDBC driver
-//        try {
-//            Class.forName("org.sqlite.JDBC");
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
 
         try (var conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -139,10 +129,7 @@ public class InventoryDatabase {
                 + Associated_Part_Max + " TEXT,"
                 + Associated_Part_Product_Id + " TEXT,"
                 + Part_Id + " TEXT)";
-//        var sql6 = "CREATE TABLE IF NOT EXISTS " + Associated_Parts_Table + " ("
-//                + Associated_Id + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                + Associated_Part_Id + " TEXT,"
-//                + Associated_Part_Product_Id + " TEXT)";
+
 
         try {
             var conn = DriverManager.getConnection(url);
@@ -239,7 +226,6 @@ public class InventoryDatabase {
             throw new RuntimeException(e);
         }
 
-        System.out.println(sqlProductAdd);
     }
 
     // Get Product ID from Database
@@ -257,7 +243,14 @@ public class InventoryDatabase {
         return id;
     }
 
-    // Product Table View Populate Methods
+    /**
+     * Populates the product table by reading all records from the Product_Table in the database.
+     * It retrieves product data such as ID, name, price, stock, min, and max values,
+     * then creates new Product objects and adds them to the Inventory.
+     *
+     * The method handles SQL exceptions by throwing a RuntimeException.
+     */
+
     public void productTablePopulate() {
         var sqlRead = "SELECT * From " + Product_Table;
 
@@ -371,7 +364,6 @@ public class InventoryDatabase {
             throw new RuntimeException(e);
         }
 
-        System.out.println(sqlProductAdd);
     }
 
     // OutSource Part Add
@@ -462,7 +454,6 @@ public class InventoryDatabase {
             throw new RuntimeException(e);
         }
 
-        System.out.println(sqlProductAdd);
     }
 
     // Part Table View Populate Methods
@@ -599,7 +590,6 @@ public class InventoryDatabase {
         try {
             var conn = DriverManager.getConnection(url);
             var pstmt = conn.prepareStatement(sqlProductAdd);
-            System.out.println("InventoryDatabase delete numbers: " + numbers);
 
             for (int num : numbers) {
                 pstmt.setString(1, String.valueOf(num));
@@ -611,7 +601,6 @@ public class InventoryDatabase {
             throw new RuntimeException(e);
         }
 
-        System.out.println(sqlProductAdd);
     }
 
     /**
@@ -759,5 +748,64 @@ public class InventoryDatabase {
 
 
     /***End of User Log-In Code Block***/
+
+    public boolean nameCheck(String tableName,String tableColumn, String name) throws SQLException {
+        // Define whitelists for tables and columns
+        Set<String> allowedTables = Set.of(Part_Table, Product_Table);
+        Set<String> allowedColumns = Set.of(Part_Name, Product_Name);
+
+        // Validate table and column names against the whitelist
+        if (!allowedTables.contains(tableName) || !allowedColumns.contains(tableColumn)) {
+            throw new IllegalArgumentException("Invalid table or column name provided");
+        }
+
+        boolean matched;
+        var sqlRead = "SELECT * From " + tableName + " WHERE " + tableColumn + " = ?";
+        var conn = DriverManager.getConnection(url);
+        var pstmt = conn.prepareStatement(sqlRead);
+        pstmt.setString(1, name);
+
+        var rs = pstmt.executeQuery();
+        if (rs.next()) {
+
+            Alert existingName= new Alert(Alert.AlertType.WARNING);
+            existingName.setTitle("Name Error");
+            existingName.setContentText("Part Name Already Exists, Try Again.");
+            existingName.showAndWait();
+            matched = false;
+        }
+        else{
+            matched=true;
+        }
+        conn.close();
+        return matched;
+    }
+    public boolean nameCheckEdit(String tableName,String tableColumn, String name,String tableColumn2, String id) throws SQLException {
+        // Define whitelists for tables and columns
+        Set<String> allowedTables = Set.of(Part_Table, Product_Table);
+        Set<String> allowedColumns = Set.of(Part_Name, Product_Name,Part_Id,Product_Id);
+
+        // Validate table and column names against the whitelist
+        if (!allowedTables.contains(tableName) || !allowedColumns.contains(tableColumn)||!allowedColumns.contains(tableColumn2)) {
+            throw new IllegalArgumentException("Invalid table or column name provided");
+        }
+        boolean matched;
+        var sqlRead = "SELECT * From " + tableName + " WHERE " + tableColumn + " = ?" + " AND " + tableColumn2 + " = ?";
+        var conn = DriverManager.getConnection(url);
+        var pstmt = conn.prepareStatement(sqlRead);
+        pstmt.setString(1, name);
+        pstmt.setString(2, id);
+        var rs = pstmt.executeQuery();
+        if (rs.next()) {
+            matched = true;
+
+        }
+        else {
+            matched=nameCheck(tableName,tableColumn,name);
+
+        }
+        conn.close();
+        return matched;
+    }
 
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -40,6 +41,16 @@ public class CreateUser {
     @FXML
     private TextField createUserField;
 
+    /**
+     * Saves the user creation result to a log file.
+     *
+     * This method logs the success or failure message to a file named "user_create_activity.txt".
+     * If the file does not exist, it will be created. For subsequent writes, the log entry will be appended.
+     *
+     * The log entry includes the date and time of the attempt, and the success or failure status.
+     *
+     * Upon encountering exceptions during the file operations, a RuntimeException is thrown.
+     */
     public static void SaveFile() {
         String success = "User Creation" + "\nattempt on: " + lD + " " + lT.format(tF) + "\nStatus: Success\n\n";
         String failure = "User Creation" + "\nattempt on: " + lD + " " + lT.format(tF) + "\nStatus: Fail\n\n";
@@ -91,13 +102,13 @@ public class CreateUser {
 
             if (createUser.isEmpty() && createPass.isEmpty()) {
                 // Add Alert
-                System.out.println("Please Input User Name and Password.");
+                callAlert("User Name","Password");
                 SaveFile();
             } else if (createUser.isEmpty()) {
-                System.out.println("Please Input User Name.");
+                callAlert("User Name");
                 SaveFile();
             } else if (createPass.isEmpty()) {
-                System.out.println("Please Input Password.");
+                callAlert("Password");
                 SaveFile();
             } else {
                 try {
@@ -111,6 +122,10 @@ public class CreateUser {
                     inventoryDatabase.userCreate(createUser, createPass);
                     attemptS = true;
                     SaveFile();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success Dialog");
+                    alert.setContentText("User has been Successfully Created");
+                    alert.showAndWait();
                     stage = (Stage) ((Button) mouseEvent.getSource()).getScene().getWindow();
                     stageSwitch();
                 }
@@ -124,6 +139,13 @@ public class CreateUser {
         });
     }
 
+    /**
+     * Switches the current stage's scene to the sign-up view.
+     * <p>
+     * This method attempts to load the sign-up FXML file and set it as the scene of the current stage.
+     * If an IOException occurs during the loading process, a RuntimeException is thrown.
+     * The new scene is then displayed by calling `show()` on the stage.
+     */
     public void stageSwitch() {
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/signUp.fxml")));
@@ -132,5 +154,24 @@ public class CreateUser {
         }
         stage.setScene(new Scene(scene));
         stage.show();
+    }
+
+    /**
+     * Displays a warning alert dialog with a message requesting valid input for the specified fields.
+     *
+     * @param name the name of the first field that requires valid input
+     * @param pass the name of the second field that requires valid input
+     */
+    public void callAlert(String name,String pass){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning Dialog");
+        alert.setContentText("Please input valid " + name + " and " + pass);
+        alert.showAndWait();
+    }
+    public void callAlert(String name){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning Dialog");
+        alert.setContentText("Please input valid " + name);
+        alert.showAndWait();
     }
 }

@@ -131,26 +131,29 @@ public class addProductPartsController implements Initializable {
 
 
             } else {
-                inventoryDatabase.productAdd(productName, String.valueOf(productPrice), String.valueOf(productInv), String.valueOf(productMin), String.valueOf(productMax));
-                String productId = inventoryDatabase.getProductId(productName);
-                if (!associatedParts.isEmpty()) {
-                    associatedPartsList = AssociatedPartsTable.getItems();
-                    for (Part part : associatedPartsList) {
-                        String partid = String.valueOf(part.getId());
-                        String partName = part.getName();
-                        String partPrice = String.valueOf(part.getPrice());
-                        String partStock = String.valueOf(part.getStock());
-                        String partMin = String.valueOf(part.getMin());
-                        String partMax = String.valueOf(part.getMax());
-                        inventoryDatabase.addAssociatedPart(partName, partPrice, partStock, partMin, partMax, productId, partid);
+                boolean b = inventoryDatabase.nameCheck("Products","name",productName);
+                if(b) {
+                    inventoryDatabase.productAdd(productName, String.valueOf(productPrice), String.valueOf(productInv), String.valueOf(productMin), String.valueOf(productMax));
+                    String productId = inventoryDatabase.getProductId(productName);
+                    if (!associatedParts.isEmpty()) {
+                        associatedPartsList = AssociatedPartsTable.getItems();
+                        for (Part part : associatedPartsList) {
+                            String partid = String.valueOf(part.getId());
+                            String partName = part.getName();
+                            String partPrice = String.valueOf(part.getPrice());
+                            String partStock = String.valueOf(part.getStock());
+                            String partMin = String.valueOf(part.getMin());
+                            String partMax = String.valueOf(part.getMax());
+                            inventoryDatabase.addAssociatedPart(partName, partPrice, partStock, partMin, partMax, productId, partid);
+                        }
                     }
+                    boolean a = true;
+                    signUpController.SaveFile("\nAdd Product attempt on: ", a);
+                    stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
                 }
-                boolean a = true;
-                signUpController.SaveFile("\nAdd Product attempt on: ", a);
-                stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.show();
             }
 
         } catch (NumberFormatException e) {

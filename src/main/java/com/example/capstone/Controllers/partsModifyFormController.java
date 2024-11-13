@@ -175,32 +175,40 @@ public class partsModifyFormController implements Initializable {
                 nameAlert.setContentText("Name field is empty please input a name");
                 nameAlert.showAndWait();
 
-            } else {
-                //In-House radio button is selected
-                if (modifyiHRadioButton.isSelected()) {
-                    int machineID = Integer.parseInt(modifyMachineId.getText());
-                    inventoryDatabase.partUpdate(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "IH", String.valueOf(partId));
-                    if (oldInOut.equals("OS")) {
-                        inventoryDatabase.outsourcePartDelete(String.valueOf(partId));
-                        inventoryDatabase.inHousePartAdd(String.valueOf(partId), String.valueOf(machineID));
-                    } else
-                        inventoryDatabase.inHousePartUpdate(String.valueOf(machineID), String.valueOf(partId));
-                } else if (modifyOutRadioButton.isSelected()) {
-                    String companyName = modifyMachineId.getText();
-                    inventoryDatabase.partUpdate(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "OS", String.valueOf(partId));
-                    if (oldInOut.equals("IH")) {
-                        inventoryDatabase.outsourcePartAdd(String.valueOf(partId), String.valueOf(companyName));
-                        inventoryDatabase.inHousePartDelete(String.valueOf(partId));
-                    } else
-                        inventoryDatabase.outSourcedPartUpdate(companyName, String.valueOf(partId));
+            } else if(modifyMachineId.getText().isEmpty()){
+                Alert nameAlert = new Alert(Alert.AlertType.WARNING);
+                nameAlert.setTitle(ModifyMachineIdLabel.getText()+" Error");
+                nameAlert.setContentText(ModifyMachineIdLabel.getText()+" field is empty please input a "+ModifyMachineIdLabel.getText());
+                nameAlert.showAndWait();
+            }
+            else {
+                boolean b = inventoryDatabase.nameCheckEdit("Parts","part",partName,"partId", String.valueOf(id));
+                if(b) {
+                    //In-House radio button is selected
+                    if (modifyiHRadioButton.isSelected()) {
+                        int machineID = Integer.parseInt(modifyMachineId.getText());
+                        inventoryDatabase.partUpdate(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "IH", String.valueOf(partId));
+                        if (oldInOut.equals("OS")) {
+                            inventoryDatabase.outsourcePartDelete(String.valueOf(partId));
+                            inventoryDatabase.inHousePartAdd(String.valueOf(partId), String.valueOf(machineID));
+                        } else
+                            inventoryDatabase.inHousePartUpdate(String.valueOf(machineID), String.valueOf(partId));
+                    } else if (modifyOutRadioButton.isSelected()) {
+                        String companyName = modifyMachineId.getText();
+                        inventoryDatabase.partUpdate(partName, String.valueOf(partPrice), String.valueOf(partInv), String.valueOf(partMin), String.valueOf(partMax), "OS", String.valueOf(partId));
+                        if (oldInOut.equals("IH")) {
+                            inventoryDatabase.outsourcePartAdd(String.valueOf(partId), String.valueOf(companyName));
+                            inventoryDatabase.inHousePartDelete(String.valueOf(partId));
+                        } else
+                            inventoryDatabase.outSourcedPartUpdate(companyName, String.valueOf(partId));
+                    }
+                    boolean a = true;
+                    signUpController.SaveFile("\nModify Part attempt on: ", a);
+                    stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
                 }
-                boolean a = true;
-                signUpController.SaveFile("\nModify Part attempt on: ", a);
-                stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.show();
-
 
             }
         } catch (NumberFormatException e) {

@@ -201,25 +201,26 @@ public class modifyProductPartsController implements Initializable {
                 nameAlert.showAndWait();
 
             } else {
+                boolean b = inventoryDatabase.nameCheckEdit("Products","name",productName,"id",String.valueOf(id));
+                if(b) {
+                    inventoryDatabase.productUpdate(modifyProductName.getText(), modifyProductPrice.getText(), modifyProductInv.getText(),
+                            modifyProductMin.getText(), modifyProductMax.getText(), String.valueOf(id));
+                    if (!numbersDelete.isEmpty()) {
+                        inventoryDatabase.associatedPartDelete(numbersDelete);
+                    }
+                    if (!numbersAdd.isEmpty()) {
+                        for (int add : numbersAdd)
+                            inventoryDatabase.modifyAddAssociatedPart(String.valueOf(add), String.valueOf(id));
+                    }
+                    Inventory.clearAllAssociatedParts();
+                    boolean a = true;
+                    signUpController.SaveFile("\nModify Product attempt on: ", a);
+                    stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
 
-                inventoryDatabase.productUpdate(modifyProductName.getText(), modifyProductPrice.getText(), modifyProductInv.getText(),
-                        modifyProductMin.getText(), modifyProductMax.getText(), String.valueOf(id));
-                if (!numbersDelete.isEmpty()) {
-                    inventoryDatabase.associatedPartDelete(numbersDelete);
                 }
-                if (!numbersAdd.isEmpty()) {
-                    for (int add : numbersAdd)
-                        inventoryDatabase.modifyAddAssociatedPart(String.valueOf(add), String.valueOf(id));
-                }
-                Inventory.clearAllAssociatedParts();
-                boolean a = true;
-                signUpController.SaveFile("\nModify Product attempt on: ", a);
-                stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("/Views/MainForm.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.show();
-
-
             }
 
 
