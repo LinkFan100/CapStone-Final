@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="182.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone.Controllers.CreateUser">
+   <children>
+      <AnchorPane prefHeight="402.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="createCancelBtn" layoutX="226.0" layoutY="131.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Cancel" />
+            <Text layoutX="127.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name" wrappingWidth="62.13671875" />
+            <TextField fx:id="createUserField" layoutX="127.0" layoutY="51.0" promptText="Create User Name..." />
+            <Text layoutX="127.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+            <TextField fx:id="createPasswordField" layoutX="127.0" layoutY="100.0" promptText="Create Password..." />
+            <Button fx:id="createUserBtn" layoutX="113.0" layoutY="131.0" mnemonicParsing="false" text="Create User" />
+         </children></AnchorPane>
+   </children>
+</VBox>

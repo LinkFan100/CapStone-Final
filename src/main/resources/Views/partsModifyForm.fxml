@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.capstone.Controllers.partsModifyFormController">
+   <children>
+      <AnchorPane prefHeight="512.0" prefWidth="667.0">
+         <children>
+            <GridPane layoutX="86.0" layoutY="112.0" prefHeight="220.0" prefWidth="383.0" vgap="25.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="242.0" minWidth="10.0" prefWidth="68.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="411.0" minWidth="10.0" prefWidth="108.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="411.0" minWidth="9.0" prefWidth="47.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="411.0" minWidth="5.0" prefWidth="84.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text fx:id="ModifyMachineIdLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Machine ID" wrappingWidth="244.13671875" GridPane.rowIndex="4" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inv" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price/Cost" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max" GridPane.rowIndex="3" />
+                  <TextField fx:id="modifyName" prefHeight="17.0" prefWidth="398.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="modifyInv" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="modifyPrice" prefHeight="25.0" prefWidth="39.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="modifyMax" prefHeight="25.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="modifyMachineId" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Min" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <TextField fx:id="modifyMin" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </GridPane>
+            <Text layoutX="72.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modify Part" wrappingWidth="97.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Text>
+            <RadioButton fx:id="modifyiHRadioButton" layoutX="204.0" layoutY="36.0" mnemonicParsing="false" onAction="#modifyiHRadioButtonToggle" text="In-House">
+               <toggleGroup>
+                  <ToggleGroup fx:id="modifyPartInHouseToggle" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="modifyOutRadioButton" layoutX="334.0" layoutY="36.0" mnemonicParsing="false" onAction="#modifyOutRadioToggle" text="Outsourced" toggleGroup="$modifyPartInHouseToggle" />
+            <Button fx:id="modifyaddPartSaveButton" layoutX="334.0" layoutY="363.0" mnemonicParsing="false" onAction="#modifyaddPartSaveClick" prefHeight="25.0" prefWidth="70.0" text="Save" />
+            <Button fx:id="modifycancelAddPartButton" layoutX="424.0" layoutY="363.0" mnemonicParsing="false" onAction="#modifycancelAddPartClick" prefHeight="25.0" prefWidth="70.0" text="Cancel" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

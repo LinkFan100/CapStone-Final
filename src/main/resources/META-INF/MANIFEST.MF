@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Main-Class: com.example.capstone.Main.Main
+Class-Path: commons-io-2.16.1.jar javafx-controls-19.jar javafx-controls
+ -19-win.jar jdom2-2.0.6.1.jar commons-codec-1.17.0.jar javafx-base-19.j
+ ar asm-commons-9.7.jar commons-compress-1.26.2.jar commons-lang3-3.14.0
+ .jar javafx-base-19-win.jar javafx-fxml-19.jar plexus-utils-3.5.1.jar s
+ lf4j-api-2.0.0.jar sqlite-jdbc-3.47.0.0.jar maven-shade-plugin-3.6.0.ja
+ r asm-9.7.jar javafx-graphics-19-win.jar asm-tree-9.7.jar jdependency-2
+ .10.jar javafx-fxml-19-win.jar slf4j-simple-2.0.0.jar javafx-graphics-1
+ 9.jar
+
